@@ -1,0 +1,183 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <!--The viewport meta tag is used to improve the presentation and behavior
+  of the samples on iOS devices-->
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
+  <title>Portal Items Extent Heatmap</title>
+  <link rel="stylesheet" href="http://js.arcgis.com/3.13/esri/css/esri.css">
+  <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/960gs/0/960.min.css">
+  <script>var dojoConfig = { parseOnLoad: false };</script>
+  <script src="http://js.arcgis.com/3.13/"></script>
+  <script>
+    require([
+    "dojo/ready",
+    "dojo/on",
+    "dojo/_base/array",
+    "dojo/aspect",
+    "dojo/_base/Color",
+    "esri/map",
+    "esri/geometry/Extent",
+    "esri/layers/GraphicsLayer",
+	  "esri/SpatialReference",
+    "esri/symbols/SimpleFillSymbol",
+    "esri/symbols/SimpleLineSymbol",
+    "esri/symbols/SimpleMarkerSymbol",
+    "esri/renderers/HeatmapRenderer",
+    "esri/arcgis/Portal",
+    "esri/graphic",
+    "esri/geometry/geometryEngine"
+    ],
+    function (
+      ready,
+      on,
+      array,
+      aspect,
+      Color,
+      Map,
+      Extent,
+      GraphicsLayer,
+      SpatialReference,
+      SimpleFillSymbol,
+      SimpleLineSymbol,
+      SimpleMarkerSymbol,
+      HeatmapRenderer,
+      esriPortal,
+      Graphic,
+      geometryEngine) {
+
+      var map;
+      var p;
+      var extentSymbol;
+      var centerSymbol;
+      var itemsExtentsArray = [];
+      var itemsNoExtentsArray = [];
+      var extentsGraphicsLayer = new GraphicsLayer();
+      var centroidGraphicsLayer = new GraphicsLayer();
+      var heatmapGraphicsLayer = new GraphicsLayer();
+      var spatialReference = new SpatialReference({ wkid: 4326 });
+      var heatmapRenderer;
+      var appConfig = {
+            numItems: 100,
+            portalUrl: 'http://www.arcgis.com'
+          };
+
+      ready(function () {
+        init();
+      });
+
+      function init() {
+        map = new Map("mapdiv", {
+          basemap: "dark-gray",
+          center: [-92.50, 38.75],
+          zoom: 2
+        });
+
+        extentSymbol = new SimpleFillSymbol("solid",
+          new SimpleLineSymbol("solid", new Color([232, 104, 80]), 2),
+          new Color([232, 104, 80, 0.25])
+        );
+
+        centerSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.STYLE_CIRCLE, 10,
+          new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,
+          new Color([255, 255, 255]), 1),
+          new Color([255, 0, 0, 0.25])
+        );
+
+        heatmapRenderer = new HeatmapRenderer({
+          colors: ["rgba(0, 0, 255, 0)", "rgb(0, 0, 255)", "rgb(255, 0, 255)", "rgb(255, 0, 0)"],
+          blurRadius: 12,
+          maxPixelIntensity: 250,
+          minPixelIntensity: 10
+        });
+
+        p = new esriPortal.Portal(appConfig.portalUrl);
+        on(p, 'load', function () {
+          getPortalItems();
+        });
+
+      };
+
+      function getPortalItems() {
+        var params = {
+          q: 'type: "Web Map"',
+          num: appConfig.numItems,
+          f: 'json'
+        };
+        p.queryItems(params).then(function (items) {
+          array.forEach(items.results, function (item) {
+            if (item.extent.length === 2) {
+              itemsExtentsArray.push(item);
+            };
+          });
+          createExtentsLayer(itemsExtentsArray);
+        });
+      };
+
+
+      function createExtentsLayer(itemExtentsArray) {
+        array.forEach(itemExtentsArray, function (item) {
+          var xmin = Number(item.extent[0][0]);
+          var ymin = Number(item.extent[0][1]);
+          var xmax = Number(item.extent[1][0]);
+          var ymax = Number(item.extent[1][1]);
+
+          var extent = new Extent(xmin, ymin, xmax, ymax, spatialReference);
+          var centerPt = extent.getCenter();
+
+          var extentGraphic = new Graphic(extent);      //item bounding box
+          var centerPtGraphic = new Graphic(centerPt);  //item centroid
+          var heatmapGraphic = new Graphic(centerPt);   //item centroid for heatmap renderer
+
+          extentGraphic.setSymbol(extentSymbol);        //item bounding box
+          centerPtGraphic.setSymbol(centerSymbol);      //item centroid symbol
+          
+          extentsGraphicsLayer.add(extentGraphic);      //item bounding box layer
+          centroidGraphicsLayer.add(centerPtGraphic);   //item centroid symbol layer
+          heatmapGraphicsLayer.add(heatmapGraphic);     //item centroid heatmap renderer
+        });
+
+        heatmapGraphicsLayer.setRenderer(heatmapRenderer);  //set heatmap renderer to graphics layer
+        map.addLayer(extentsGraphicsLayer);                 //item bounding box
+        map.addLayer(centroidGraphicsLayer);                //item centroid
+        map.addLayer(heatmapGraphicsLayer);                 //item heatmap renderer
+      };
+    });
+  </script>
+  
+</head>
+
+<body>
+  <div id='header'>
+    <div class='container_16'>
+      <div class='grid_16'>
+        <h3 id='groupTitle'>Portal Items Geo Vizualization</h3>
+      </div>
+    </div>
+  </div>
+  
+  <div id='mainContent'>
+    
+    <div class='container_16'>
+      <div class="grid_16">
+        <div id="mapdiv"></div>
+      </div>
+      <div class="grid_4 prefix_2" style="background: #CCCCCC; text-align: center"">
+        <p>section 1</p>
+      </div>
+      <div class="grid_4" style="background: #CCCCCC; text-align: center"">
+        <p>section 2</p>
+      </div>
+      <div class="grid_4 suffix_2" style="background: #cccccc; text-align: center">
+        <p>section 3</p>
+      </div>
+
+
+    </div>
+
+  </div>
+
+</body>
+
+</html>
