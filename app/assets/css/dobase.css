@@ -1,0 +1,362 @@
+﻿html body {
+  margin: 0;
+  font-size: 100%;
+  line-height: 1.5em;
+  font-family: Lucida Sans, Lucida Grande, Arial;
+  color: #4d4d4d;
+  background-color: #FFFFFF;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  font-style: normal;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  font-family: inherit;
+  line-height: 1.1;
+  color: inherit;
+}
+
+h1, .h1 {
+  font-size: 36px;
+}
+
+h2, .h2 {
+  font-size: 30px;
+}
+
+h3, .h3 {
+  font-size: 24px;
+}
+
+h4, .h4 {
+  font-size: 18px;
+}
+
+h5, .h5 {
+  font-size: 14px;
+}
+
+h6, .h6 {
+  font-size: 12px;
+}
+
+p {
+  margin: 0 0 10px;
+}
+
+.wrapper {
+  min-height: 100%;
+}
+
+/*
+.container {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+*/
+
+.container-header {
+  min-height: 60px;
+}
+
+.container-banner {
+  height: 400px;
+  background: #333;
+  position: relative;
+}
+
+.container-content {
+  padding-right: 15px;
+  padding-left: 15px;
+  padding-top: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.container-footer {
+  background: #f2f2f2;
+  border-top: 1px solid #ccc;
+  height: 100px;
+}
+
+.container-navh {
+
+}
+
+.container-navv {
+
+}
+
+.brand-div {
+  float: left;
+  /*padding: 10px 10px 10px 10px;*/
+  margin: 10px 0 0 10px;
+  height: 40px;
+  width: 100px;
+  background-image: url('../img/esri-logo-wh.png');
+  background-repeat: no-repeat;
+}
+
+.login-div {
+  float: right;
+  padding: 15px 25px 0 0;
+}
+
+.banner-content {
+  max-width: 1170px;
+  height: 100%;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.banner-info {
+  position: relative;
+  float: left;
+  height: 100%;
+  width: 60%;
+}
+
+.banner-title{
+  color: #fff;
+  font-size: 3.5em;
+  line-height: normal;
+  margin-top: 150px;
+}
+
+.banner-tagline {
+  color: #ccc;
+  font-size: 1.5em;
+  line-height: normal;
+}
+
+.banner-img {
+  height: 100%;
+  text-align: center;
+}
+
+.banner-img img {
+  height: 75%;
+  margin-top: 50px;
+  color: #FF0000;
+}
+
+
+
+/* BUTTON DEFINITIONS */
+
+.btn {
+  display: inline-block;
+  padding: 6px 12px;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.42857143;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+
+.btn-action {
+  color: #fff;
+  background-color: #FF530D;
+  border-color: #E86500;
+  border-radius: 4px;
+}
+
+/* CLEAR DEFINITIONS*/
+.clear {
+  clear: both;
+}
+
+.clear25 {
+  clear: both;
+  height: 25px;
+}
+
+/* GRID LAYOUT */
+
+.row, 
+.column {
+    box-sizing: border-box;
+}
+
+.row:before,
+.row:after {
+    content: " ";
+    display: table;
+}
+
+.row:after {
+    clear: both;
+}
+
+.row-1 {
+  height: 40px;
+}
+
+.row-2 {
+  height: 80px;
+}
+
+.row-3 {
+  height: 120px;
+}
+
+.row-4 {
+  height: 160px;
+}
+
+.row-5 {
+  height: 200px;
+}
+
+.row-6 {
+  height: 240px;
+}
+
+.row-7 {
+  height: 280px;
+}
+
+.row-8 {
+  height: 320px;
+}
+
+.row-9 {
+  height: 360px;
+}
+
+.row-10 {
+  height: 400px;
+}
+
+
+.column {
+    position: relative;
+    float: left;
+    display: block;
+}
+
+.column + .column {
+    margin-left: 1.6%;
+}
+
+.column-1 {
+    width: 6.86666666667%;
+}
+
+.column-2 {
+    width: 15.3333333333%;
+}
+
+.column-3 {
+    width: 23.8%;
+}
+
+.column-4 {
+    width: 32.2666666667%;
+}
+
+.column-5 {
+    width: 40.7333333333%;
+}
+
+.column-6 {
+    width: 49.2%;
+}
+
+.column-7 {
+    width: 57.6666666667%;
+}
+
+.column-8 {
+    width: 66.1333333333%;
+}
+
+.column-9 {
+    width: 74.6%;
+}
+
+.column-10 {
+    width: 83.0666666667%;
+}
+
+.column-11 {
+    width: 91.5333333333%;
+}
+
+.column-12 {
+    width: 100%;
+    margin-left: 0;
+}
+
+@media only screen and (max-width: 550px) {
+    .column-1, 
+    .column-2, 
+    .column-3, 
+    .column-4, 
+    .column-5, 
+    .column-6, 
+    .column-7, 
+    .column-8, 
+    .column-9, 
+    .column-10, 
+    .column-11, 
+    .column-12 {
+        float: none;
+        width: auto;
+    }
+  
+    .column + .column {
+        margin-left: 0;
+    }
+}
+
+@media only screen and (max-width: 550px) {
+    .row {
+        margin-bottom: 0;
+    }
+    .column {
+        margin-bottom: 20px;
+    }
+    .row:last-child .column:last-child {
+        margin-bottom: 0;
+    }
+}
+
+.column {
+    background: #fff;
+    border: 1px solid #959595;
+    border-radius: 0;
+    color: #959595;
+    padding: 10px;
+    min-height: 40px;
+    text-align: center;
+}
+
+.column .column {
+    color: #4d4d4d;
+    background: #fff;
+    border-color: #ccc;
+}
+
+.row {
+    margin-bottom: 20px;
+}
+
+.row:last-child {
+    margin-bottom: 0;
+}
+

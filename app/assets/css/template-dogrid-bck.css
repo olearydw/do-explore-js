@@ -1,0 +1,212 @@
+﻿/*------------------------------*\
+    DO Base CSS
+\*------------------------------*/
+
+body {
+  background: #fefefe;
+  color: #4d4d4d;
+  font-family: "Lucida Grande", "Seoge UI", "Arial", sans-serif;
+  margin: 0;
+}
+body * html {
+  font-size: 100%;
+}
+body html {
+  font-size: 16px;
+  line-height: 1.5em;
+}
+
+.fleft {
+  float: left;
+}
+
+.fright {
+  float: right;
+}
+
+.clear {
+  clear: both;
+}
+
+.show {
+  display: block;
+  visibility: visible;
+}
+
+.hide {
+  display: block;
+  visibility: hidden;
+}
+
+
+.container-main{
+  padding: 20px;
+  /*max-width: 1200px;*/
+  margin: auto;
+}
+
+.container-banner{
+  background: #4d4d4d;
+  width: 100%;
+  color: #777777;
+  min-height: 400px;
+}
+
+p {
+  margin: .67em 0;
+  font-size: 0.875em;
+}
+
+.row, 
+.column {
+    box-sizing: border-box;
+}
+
+.row:before,
+.row:after {
+    content: " ";
+    display: table;
+}
+
+.row:after {
+    clear: both;
+}
+
+.column {
+    position: relative;
+    float: left;
+    display: block;
+}
+
+.column + .column {
+    margin-left: 1.6%;
+}
+
+.column-1 {
+    width: 6.86666666667%;
+}
+
+.column-2 {
+    width: 15.3333333333%;
+}
+
+.column-3 {
+    width: 23.8%;
+}
+
+.column-4 {
+    width: 32.2666666667%;
+}
+
+.column-5 {
+    width: 40.7333333333%;
+}
+
+.column-6 {
+    width: 49.2%;
+}
+
+.column-7 {
+    width: 57.6666666667%;
+}
+
+.column-8 {
+    width: 66.1333333333%;
+}
+
+.column-9 {
+    width: 74.6%;
+}
+
+.column-10 {
+    width: 83.0666666667%;
+}
+
+.column-11 {
+    width: 91.5333333333%;
+}
+
+.column-12 {
+    width: 100%;
+    margin-left: 0;
+}
+
+@media only screen and (max-width: 550px) {
+    .column-1, 
+    .column-2, 
+    .column-3, 
+    .column-4, 
+    .column-5, 
+    .column-6, 
+    .column-7, 
+    .column-8, 
+    .column-9, 
+    .column-10, 
+    .column-11, 
+    .column-12 {
+        float: none;
+        width: auto;
+    }
+  
+    .column + .column {
+        margin-left: 0;
+    }
+}
+
+/*------------------------------*\
+    Styling
+\*------------------------------*/
+
+body {
+    margin: 0;
+}
+
+.column {
+    background: #eee;
+    border: 1px solid #ccc;
+    border-radius: 0;
+    color: #777;
+    padding: 5px;
+    min-height: 50px;
+    text-align: center;
+}
+
+.row {
+    margin-bottom: 10px;
+}
+
+.row:last-child {
+    margin-bottom: 0;
+}
+
+.column .column {
+    color: #eee;
+    background: #333;
+    border-color: #000;
+}
+
+.p {
+  font-size: 14px;
+  text-align: center;
+  padding-top: 100px;
+}
+
+
+
+.banner-title{
+  color: #777777;
+  font-size: 2.5em;
+  margin-top: 50px;
+}
+
+@media only screen and (max-width: 550px) {
+    .row {
+        margin-bottom: 0;
+    }
+    .column {
+        margin-bottom: 10px;
+    }
+    .row:last-child .column:last-child {
+        margin-bottom: 0;
+    }
+}
