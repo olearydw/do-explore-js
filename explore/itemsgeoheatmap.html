@@ -34,6 +34,8 @@
     "esri/map",
     "esri/geometry/Extent",
     "esri/layers/GraphicsLayer",
+    "esri/layers/FeatureLayer",
+    "esri/dijit/PopupTemplate",
 	  "esri/SpatialReference",
     "esri/symbols/SimpleFillSymbol",
     "esri/symbols/SimpleLineSymbol",
@@ -53,6 +55,8 @@
       Map,
       Extent,
       GraphicsLayer,
+      FeatureLayer,
+      PopupTemplate,
       SpatialReference,
       SimpleFillSymbol,
       SimpleLineSymbol,
@@ -69,18 +73,121 @@
       var itemsExtentsArray = [];
       var itemsNoExtentsArray = [];
       var extentsGraphicsLayer = new GraphicsLayer();
-      var centroidGraphicsLayer = new GraphicsLayer();
-      var heatmapGraphicsLayer = new GraphicsLayer();
+      //var centroidGraphicsLayer = new GraphicsLayer();
+      //var heatmapGraphicsLayer = new FeatureLayer(featureCollection);
+      //var heatmapGraphicsLayer;
       var spatialReference = new SpatialReference({ wkid: 4326 });
       var heatmapRenderer;
+
+      var layerDefinition = {
+        "geometryType": "esriGeometryPoint",
+        "fields": [{
+          name: "ObjectID",
+          type: "esriFieldTypeOID",
+          alias: "ObjectID"
+        }]
+      };
+
+      var featureCollection = {
+        "layerDefinition": layerDefinition,
+        "featureSet": {
+          "features": [],
+          "geometryType": "esriGeometryPoint"
+        }
+      };
+
+      var heatmapGraphicsLayer = new FeatureLayer(featureCollection);
+
       var appConfig = {
-            numItems: 100,
-            portalUrl: 'http://www.arcgis.com'
-          };
+        numItems: 100,
+        portalUrl: 'http://www.arcgis.com'
+      };
+
+
+      var ptLayerDefinition = {
+        "geometryType": "esriGeometryPoint",
+        "fields": [{
+          name: "ObjectID",
+          type: "esriFieldTypeOID",
+          alias: "ObjectID"
+        }, {
+          name: "title",
+          alias: "Title",
+          type: "esriFieldTypeString"
+        }, {
+          name: "id",
+          alias: "Item ID",
+          type: "esriFieldTypeString"
+        }, {
+          name: "access",
+          alias: "Shared",
+          type: "esriFieldTypeString"
+        }, {
+          name: "owner",
+          alias: "Item Owner",
+          type: "esriFieldTypeString"
+        }, {
+          name: "displayName",
+          alias: "Display Name",
+          type: "esriFieldTypeString"
+        }, {
+          name: "thumbnailUrl",
+          alias: "Thumbnail URL",
+          type: "esriFieldTypeString"
+        }]
+      };
+
+      var ptFeatureCollection = {
+        "layerDefinition": ptLayerDefinition,
+        "featureSet": {
+          "features": [],
+          "geometryType": "esriGeometryPoint"
+        }
+      };
+      //var centroidGraphicsLayer = new GraphicsLayer();
+      //var centroidGraphicsLayer = new FeatureLayer(ptFeatureCollection);
+
+      var popupTemplate = new PopupTemplate({
+        title: "{title}",
+        //description: "{id}",
+        fieldInfos: [{
+          fieldName: "owner",
+          label: "Item Owner",
+          visible: true
+        }, {
+          fieldName: "displayName",
+          label: "Item Type",
+          visible: true
+        }],
+        mediaInfos: [{
+          "title": "",
+          "caption": "",
+          "type": "image",
+          "value": {
+            "sourceURL": "{thumbnailUrl}",
+            "linkURL": "{link}"
+          }
+        }]
+
+      });
+
+      var centroidGraphicsLayer = new FeatureLayer(ptFeatureCollection, {
+        id: "itemCentroidsLayer",
+        infoTemplate: popupTemplate
+      });
+
+
+
 
       ready(function () {
         init();
         on(dom.byId("layerToggle"), "click", handleLayerToggle);
+
+        on(centroidGraphicsLayer, "click", function (evt) {
+          console.log(evt.graphic);
+          //map.infoWindow.setFeatures([evt.graphic]);
+        });
+
       });
 
       function init() {
@@ -89,6 +196,7 @@
           center: [-92.50, 38.75],
           zoom: 3
         });
+        on(map, "load", function () { console.log('map loaded'); });
 
         extentSymbol = new SimpleFillSymbol("solid",
           new SimpleLineSymbol("solid", new Color([232, 104, 80]), 1),
@@ -101,12 +209,18 @@
           new Color([232, 104, 80, 0.75])
         );
 
+        heatmapRenderer = new HeatmapRenderer();
+
+        //heatmapGraphicsLayer = new FeatureLayer(featureCollection);
+        
+        /*
         heatmapRenderer = new HeatmapRenderer({
-          colors: ["rgba(0, 0, 255, 1)", "rgb(0, 0, 255)", "rgb(255, 0, 255)", "rgb(255, 0, 0)"],
+          colors: ["rgba(0, 0, 255, 0.05)", "rgb(0, 0, 255)", "rgb(255, 0, 255)", "rgb(255, 0, 0)"],
           blurRadius: 12,
           maxPixelIntensity: 250,
           minPixelIntensity: 10
         });
+        */
 
         p = new esriPortal.Portal(appConfig.portalUrl);
         on(p, 'load', function () {
@@ -142,8 +256,21 @@
           var extent = new Extent(xmin, ymin, xmax, ymax, spatialReference);
           var centerPt = extent.getCenter();
 
+          //console.log(item);
+
+          var attr = {};
+          attr["title"] = item.title || "Item Title";
+          attr["id"] = item.id;
+          attr["access"] = item.access;
+          attr["owner"] = item.owner;
+          attr["displayName"] = item.displayName;
+          attr["thumbnailUrl"] = item.thumbnailUrl;
+
+
           var extentGraphic = new Graphic(extent);      //item bounding box
           var centerPtGraphic = new Graphic(centerPt);  //item centroid
+          centerPtGraphic.setAttributes(attr);
+
           var heatmapGraphic = new Graphic(centerPt);   //item centroid for heatmap renderer layer
 
           extentGraphic.setSymbol(extentSymbol);        //item bounding box symbol
