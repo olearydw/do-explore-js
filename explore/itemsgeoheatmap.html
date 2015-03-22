@@ -71,7 +71,7 @@
       var extentSymbol;
       var centerSymbol;
       var itemsExtentsArray = [];
-      var itemsNoExtentsArray = [];
+
       var extentsGraphicsLayer = new GraphicsLayer();
       //var centroidGraphicsLayer = new GraphicsLayer();
       //var heatmapGraphicsLayer = new FeatureLayer(featureCollection);
@@ -160,12 +160,12 @@
           visible: true
         }],
         mediaInfos: [{
-          "title": "",
-          "caption": "",
+          "title": "Item thumbmail",
+          "caption": "the item thumbnail",
           "type": "image",
           "value": {
             "sourceURL": "{thumbnailUrl}",
-            "linkURL": "{link}"
+            "linkURL": "{itemUrl}"
           }
         }]
 
@@ -256,15 +256,17 @@
           var extent = new Extent(xmin, ymin, xmax, ymax, spatialReference);
           var centerPt = extent.getCenter();
 
-          //console.log(item);
+          console.log(item);
 
           var attr = {};
-          attr["title"] = item.title || "Item Title";
+          //attr["title"] = item.title || "Item Title";
+          attr.title = item.title || "Fake Item Title";
           attr["id"] = item.id;
           attr["access"] = item.access;
           attr["owner"] = item.owner;
           attr["displayName"] = item.displayName;
           attr["thumbnailUrl"] = item.thumbnailUrl;
+          attr["itemUrl"] = item.itemUrl;
 
 
           var extentGraphic = new Graphic(extent);      //item bounding box
